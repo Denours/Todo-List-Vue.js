@@ -18,8 +18,7 @@
         v-for="task in sortedTasks"
         :class="{ active: task.completed }"
       >
-        <input type="checkbox" v-model="task.completed" />
-        {{ task.title }}
+        <Checkbox :label="task.title" v-model="task.completed" />
       </li>
     </ul>
     <label>
@@ -30,7 +29,7 @@
       {{ remainingTasks }} tâche{{ remainingTasks > 1 ? "s" : "" }} restantes à
       effectuer
     </p>
-    <Checkbox label="Salut" />
+    <Checkbox :label="'Yas !'" />
   </div>
 </template>
 
@@ -94,7 +93,7 @@ const remainingTasks = computed(() => {
   color: red;
   text-decoration: line-through;
 }
-/*
+
 .container {
   padding: 50px;
   border: 2px solid black;
@@ -104,7 +103,6 @@ const remainingTasks = computed(() => {
   background-color: hsl(120, 51%, 85%);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-*/
 form input {
   border: 2px solid hsl(0, 6%, 58%);
   border-radius: 5px;
