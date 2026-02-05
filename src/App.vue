@@ -1,4 +1,13 @@
 <template>
+  <Layout>
+    <template #header> En-tête </template>
+    <template #aside> Sidebar </template>
+    <template #main> Main </template>
+    <template #footer> Footer </template>
+  </Layout>
+  <Button><b>Voyage</b></Button>
+  <button @click="showTimer = !showTimer">Afficher / Masquer</button>
+  <Timer v-if="showTimer" />
   <div class="container">
     <h1>Todo-List</h1>
     <p v-if="tasks.length === 0">Aucune tâche à faire pour le moment !😄</p>
@@ -29,40 +38,23 @@
       {{ remainingTasks }} tâche{{ remainingTasks > 1 ? "s" : "" }} restantes à
       effectuer
     </p>
-    <Checkbox :label="'Yas !'" />
+    <!-- <Checkbox :label="'Youpii !'" /> -->
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Checkbox from "../Checkbox.vue";
-const tasks = ref([
-  {
-    title: "Promener mon chien",
-    completed: false,
-    date: 1,
-  },
-  {
-    title: "Manger une pizza",
-    completed: false,
-    date: 2,
-  },
-  {
-    title: "Laver le sol",
-    completed: false,
-    date: 3,
-  },
-  {
-    title: "Aller au manège",
-    completed: false,
-    date: 4,
-  },
-  {
-    title: "Apprendre Vue.js",
-    completed: false,
-    date: 5,
-  },
-]);
+import Button from "../Button.vue";
+import Layout from "../Layout.vue";
+import Timer from "./Timer.vue";
+const tasks = ref([]);
+const showTimer = ref(true);
+onMounted(() => {
+  fetch("https://jsonplaceholder.typicode.com/todos")
+    .then((r) => r.json())
+    .then((v) => (tasks.value = v.map((task) => ({ ...task, date: task.id }))));
+});
 const newTaskTitle = ref("");
 const hideCompleted = ref(false);
 const addTask = () => {
